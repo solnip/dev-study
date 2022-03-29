@@ -1,0 +1,29 @@
+[jQuery]
+: jQuery란 JavaScript의 생산성의 향상시켜주는 JavaScript 라이브러리
+* 라이브러리 : 자주 사용하는 코드들을 재사용할 수 있는 형태로 가공해서 프로그래밍 효율을 높여주는 코드들
+
+특징
+1. Element를 선택하기 쉽게 할 수 있다
+2. 선택된 Element들을 효율적으로 제어할 수 있다.
+3. JavaScript로 만들어진 라이브러리이다.
+
+문법
+jQuery는 $로 시작함. 인자값으로 css selector를 줄 수 있음.
+$(제어대상).method1().mothod2();  --주어.서술어
+
+jQuery Wrapper
+Wrapper란 jQuery라는 이름을 가지고 있는 함수를 호출하는 것
+그 인자로 Element Object를 전달하거나 문자열로 된 CSS Style Selector를 전달
+- Element Object
+ : document.getElementByld로 인자를 전달하면 어떤 값을 return해주는데 그 return한 객체가 엘리먼트 오브젝트
+- CSS Style Selector
+ : ID Selector : #
+ : Class Selector : .
+ : Element Selector : 아무것도 붙어있지 않음
+
+jQuery를 이용해서 제어 대상을 지정하는 방법
+- jQuery(selector, [context])
+  : selector: CSS와 같은 형태를 가진 문자열
+  : context: 두번째 인자로 어떤 값이 전달이 되면 그 값은 컨텍스트라는 이름을 가진 인자가 되며 생략이 가능
+- jQuery(element)
+ : jQuery의 인자로 Element Object가 들어간다
