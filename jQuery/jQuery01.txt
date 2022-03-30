@@ -1,4 +1,4 @@
-[jQuery]
+[jQuery] 
 : jQuery란 JavaScript의 생산성의 향상시켜주는 JavaScript 라이브러리
 * 라이브러리 : 자주 사용하는 코드들을 재사용할 수 있는 형태로 가공해서 프로그래밍 효율을 높여주는 코드들
 
