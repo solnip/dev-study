@@ -1,0 +1,74 @@
+
+JDBC란? – Java Database Connectivity 의 약어. 자바에서 데이터베이스에 접속할 수 있도록 하는 자바 API
+자바로 데이터베이스에 접속해 데이터베이스의 기능을 다룰 수 있게 해 줌
+• 실행 순서
+드라이버 로딩 – 커넥션 연결 – 쿼리문을 실행하기 위해 Statement 객체 생성 – 쿼리 세팅 및 실행 - 실행 후 ResultSet 객체에 쿼리문 결과 저장 – 자바에서 소비
+
+
+0.DB 연결
+
+META-INF/context.xml 생성
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE context>
+<Context>
+<WatchedResource>WEB-INF/web.xml</WatchedResource>
+<Resource
+	name = "jdbc/Oracle"
+	auth = "Container"
+	type = "javax.sql.DataSource"
+	driverClassName = "oracle.jdbc.OracleDriver"
+	url = "jdbc:oracle:thin:@127.0.0.1:11111/dbdbdb"
+	username = "test" password = "test"
+	maxTotal = "20" maxIdle = "20" maxWaitMillis = "-1"/>
+</Context>
+
+
+Resource password 까진 계속 바뀌는 내용
+maxTotal: 커넥션을 몇 개까지 가지고 있을수 있는지 
+maxIdle: 커넥션 몇 개가 대기할 수 있는지 
+일반적인 상황에서 maxTotal=maxIdle (서비스 성격 따라 같지 않는게 최적일 수도 있음) 
+maxWaitMillis: 커넥션 풀이 다찬 상황에서 db요청이 하나 더 들어올때 (커넥션을 하나 더 만들어야 할 때) 
+	       얼마나 더 기다린 후에 만들건지 
+	       -1 : 무한대로 기다려라 사용자야
+
+
+1. DAO 생성
+/* 모델 – DAO(Data Access Object) : 데이터를 처리하는 메서드 구현(요리사)
+         VO(Value Object) : 데이터베이스에서 조회한 데이터를 담을 틀(요리 그릇)
+   뷰 – 데이터를 브라우저의 형태로 사용자에게 보여줌(최종 요리) */
+
+
+	static {
+		try {
+			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+			System.out.println("드라이버 로드 성공");
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	private Connection getConnection() {
+		/* DataSource는 커넥션 풀 */
+		DataSource ds = null; 
+		/* Connection는 커넥션 하나 */
+		Connection con = null;
+		try {
+			Context ctx = new InitialContext();
+			ds = (DataSource)ctx.lookup("java:comp/env/jdbc/Oracle");
+			/* 커넥션 가져옴 */
+			con = ds.getConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return con;
+	}
+	
+	private void colseConnection(Connection con) {
+		if(con!=null) {
+			try {
+				/* 커넥션 돌려줌 */
+				con.close();
+			} catch (SQLException e) {}
+		}
+	}
